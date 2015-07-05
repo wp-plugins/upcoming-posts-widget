@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Upcoming Posts Widget
- * Plugin URI: http://xavisys.com/2009/04/wordpress-upcoming-posts-widget/
+ * Plugin URI: https://aarondcampbell.com/wordpress-plugins/
  * Description: A widget that displays a list of scheduled posts.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Aaron D. Campbell
- * Author URI: http://xavisys.com/
+ * Author URI: https://aarondcampbell.com/
  */
 
 /**
@@ -13,16 +13,16 @@
  */
 class WP_Widget_Upcoming_Posts extends WP_Widget {
 
-	function WP_Widget_Upcoming_Posts() {
+	public function __construct() {
 		$widget_ops = array('classname' => 'widget_upcoming_entries', 'description' => __( "List scheduled/upcoming posts", 'upcoming_posts_widget') );
-		$this->WP_Widget('upcoming-posts', __('Upcoming Posts', 'upcoming_posts_widget'), $widget_ops);
+		parent::__construct( 'upcoming-posts', __( 'Upcoming Posts', 'upcoming_posts_widget' ), $widget_ops );
 
 		add_action( 'save_post', array(&$this, 'flush_widget_cache') );
 		add_action( 'deleted_post', array(&$this, 'flush_widget_cache') );
 		add_action( 'switch_theme', array(&$this, 'flush_widget_cache') );
 	}
 
-	function widget($args, $instance) {
+	public function widget($args, $instance) {
 		$cache = wp_cache_get('widget_upcoming_posts', 'widget');
 
 		if ( !is_array($cache) )
@@ -70,7 +70,7 @@ class WP_Widget_Upcoming_Posts extends WP_Widget {
 		wp_cache_add('widget_upcoming_posts', $cache, 'widget');
 	}
 
-	function update( $new_instance, $old_instance ) {
+	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['number'] = (int) $new_instance['number'];
@@ -83,11 +83,11 @@ class WP_Widget_Upcoming_Posts extends WP_Widget {
 		return $instance;
 	}
 
-	function flush_widget_cache() {
+	private function flush_widget_cache() {
 		wp_cache_delete('widget_upcoming_posts', 'widget');
 	}
 
-	function form( $instance ) {
+	public function form( $instance ) {
 		$title = attribute_escape($instance['title']);
 		if ( !$number = (int) $instance['number'] )
 			$number = 5;
