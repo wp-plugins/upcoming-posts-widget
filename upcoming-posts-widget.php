@@ -43,12 +43,12 @@ class WP_Widget_Upcoming_Posts extends WP_Widget {
 			$number = 15;
 
 		$queryArgs = array(
-			'showposts'			=> $number,
-			'what_to_show'		=> 'posts',
-			'nopaging'			=> 0,
-			'post_status'		=> 'future',
-			'caller_get_posts'	=> 1,
-			'order'				=> 'ASC'
+			'showposts'           => $number,
+			'what_to_show'        => 'posts',
+			'nopaging'            => 0,
+			'post_status'         => 'future',
+			'ignore_sticky_posts' => 1,
+			'order'               => 'ASC'
 		);
 
 		$r = new WP_Query($queryArgs);
