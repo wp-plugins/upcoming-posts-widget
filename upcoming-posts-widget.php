@@ -88,7 +88,7 @@ class WP_Widget_Upcoming_Posts extends WP_Widget {
 	}
 
 	public function form( $instance ) {
-		$title = attribute_escape($instance['title']);
+		$title = esc_attr($instance['title']);
 		if ( !$number = (int) $instance['number'] )
 			$number = 5;
 ?>
